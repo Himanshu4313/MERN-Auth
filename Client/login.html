@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Full stack user management system</title>
+    <!-- Link font style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400&family=Montserrat:wght@200;300;400&family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Link style sheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Here we build signup page -->
+
+    <div id="login-container">
+      <h2>Instagram LogIn</h2>
+      <form>
+        <label for="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="@exmaple"
+          required
+        />
+
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder=". . . . . "
+          required
+        />
+
+        <button type="submit" id="submit" class="logIn">LogIn</button>
+
+        <div class="link">
+          <li><a href="./forgotPassword.html">ForgotPassword?</a></li>
+          <li><a href="./index.html">signUp</a></li>
+        </div>
+      </form>
+    </div>
+
+    <!-- Link script file -->
+    <script>
+      const formSubmit = document.getElementById("submit");
+
+      formSubmit.addEventListener("click", (event) => {
+        event.preventDefault();
+
+        const userName = document.getElementById("username").value;
+        const userPassword = document.getElementById("password").value;
+        if (!userName || !userPassword) {
+          alert("Required fields are mandatory");
+        }
+        const userData = {
+          username: userName,
+          password: userPassword,
+        };
+
+        loginUser(userData);
+      });
+
+      const loginUser = async (payload) => {
+        try {
+          const resp = await fetch("http://localhost:3000/api/auth/login", {
+            method: "POST",
+            body: JSON.stringify(payload),
+            headers: { "content-type": "application/json" },
+          });
+
+          const data = await resp.json();
+          console.log(data);
+          alert(data.message);
+          window.location.href = "http://127.0.0.1:5500/Client/index.html";
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
+    </script>
+  </body>
+</html>
